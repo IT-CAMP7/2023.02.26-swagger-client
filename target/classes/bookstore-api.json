@@ -1,0 +1,844 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Jakies fajne api bo ksiegarni",
+    "version": "1.0",
+    "title": "Bookstore API",
+    "termsOfService": "http://google.pl",
+    "contact": {
+      "name": "Mateusz",
+      "url": "http://mateusz.pl",
+      "email": "mail@mail.com"
+    },
+    "license": {
+      "name": "Comarch Licence",
+      "url": "http://google.pl"
+    }
+  },
+  "host": "localhost:8085",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "rest-api-book-controller",
+      "description": "Rest Api Book Controller"
+    },
+    {
+      "name": "rest-api-order-controller",
+      "description": "Rest Api Order Controller"
+    },
+    {
+      "name": "rest-api-order-position-controller",
+      "description": "Rest Api Order Position Controller"
+    },
+    {
+      "name": "rest-api-user-controller",
+      "description": "Rest Api User Controller"
+    }
+  ],
+  "paths": {
+    "/api/v1/book": {
+      "get": {
+        "tags": [
+          "rest-api-book-controller"
+        ],
+        "summary": "Get Books",
+        "description": "Return all books or books matching to pattern",
+        "operationId": "getBooksUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "pattern",
+            "in": "query",
+            "description": "Pattern to find in title or author",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false,
+            "x-example": "Java"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BooksList"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "rest-api-book-controller"
+        ],
+        "summary": "saveBook",
+        "operationId": "saveBookUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "book",
+            "description": "book",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/book/{bookId}": {
+      "get": {
+        "tags": [
+          "rest-api-book-controller"
+        ],
+        "summary": "getBookById",
+        "operationId": "getBookByIdUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "bookId",
+            "in": "path",
+            "description": "bookId",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "rest-api-book-controller"
+        ],
+        "summary": "updateBook",
+        "operationId": "updateBookUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "book",
+            "description": "book",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          {
+            "name": "bookId",
+            "in": "path",
+            "description": "bookId",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/order": {
+      "get": {
+        "tags": [
+          "rest-api-order-controller"
+        ],
+        "summary": "getOrdersByUserId",
+        "operationId": "getOrdersByUserIdUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "userId",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OrdersDTO"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "rest-api-order-controller"
+        ],
+        "summary": "saveOrder",
+        "operationId": "saveOrderUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "orderRequest",
+            "description": "orderRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SaveOrderRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/order/{id}": {
+      "get": {
+        "tags": [
+          "rest-api-order-controller"
+        ],
+        "summary": "getOrderById",
+        "operationId": "getOrderByIdUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OrderDTO"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/orderposition/{id}": {
+      "get": {
+        "tags": [
+          "rest-api-order-position-controller"
+        ],
+        "summary": "getOrderPositionById",
+        "operationId": "getOrderPositionByIdUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OrderPositionDTO"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/user": {
+      "get": {
+        "tags": [
+          "rest-api-user-controller"
+        ],
+        "summary": "getUserByLogin",
+        "operationId": "getUserByLoginUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "login",
+            "in": "query",
+            "description": "login",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UserResponseDTO"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "rest-api-user-controller"
+        ],
+        "summary": "saveUser",
+        "operationId": "saveUserUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "userDTO",
+            "description": "userDTO",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/user/{id}": {
+      "get": {
+        "tags": [
+          "rest-api-user-controller"
+        ],
+        "summary": "getUserById",
+        "operationId": "getUserByIdUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UserResponseDTO"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "rest-api-user-controller"
+        ],
+        "summary": "updateUser",
+        "operationId": "updateUserUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "userDTO",
+            "description": "userDTO",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "Book": {
+      "type": "object",
+      "properties": {
+        "author": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "isbn": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "title": "Book"
+    },
+    "BooksList": {
+      "type": "object",
+      "properties": {
+        "books": {
+          "type": "array",
+          "description": "List of books",
+          "items": {
+            "$ref": "#/definitions/Book"
+          }
+        }
+      },
+      "title": "BooksList",
+      "description": "Object to handle list of books"
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "positions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderPosition"
+          }
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "NEW",
+            "PAID",
+            "CONFIRMED",
+            "SENT",
+            "DONE"
+          ]
+        },
+        "total": {
+          "type": "number",
+          "format": "double"
+        },
+        "user": {
+          "$ref": "#/definitions/User"
+        }
+      },
+      "title": "Order"
+    },
+    "OrderDTO": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "positions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "NEW",
+            "PAID",
+            "CONFIRMED",
+            "SENT",
+            "DONE"
+          ]
+        },
+        "total": {
+          "type": "number",
+          "format": "double"
+        },
+        "user": {
+          "type": "string"
+        }
+      },
+      "title": "OrderDTO"
+    },
+    "OrderPosition": {
+      "type": "object",
+      "properties": {
+        "book": {
+          "$ref": "#/definitions/Book"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "OrderPosition"
+    },
+    "OrderPositionDTO": {
+      "type": "object",
+      "properties": {
+        "book": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "OrderPositionDTO"
+    },
+    "OrdersDTO": {
+      "type": "object",
+      "properties": {
+        "orders": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderDTO"
+          }
+        }
+      },
+      "title": "OrdersDTO"
+    },
+    "SaveOrderRequest": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "orderPositions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderPosition"
+          }
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "NEW",
+            "PAID",
+            "CONFIRMED",
+            "SENT",
+            "DONE"
+          ]
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "SaveOrderRequest"
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "login": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "orders": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Order"
+          }
+        },
+        "password": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "ADMIN",
+            "USER"
+          ]
+        },
+        "surname": {
+          "type": "string"
+        }
+      },
+      "title": "User"
+    },
+    "UserDTO": {
+      "type": "object",
+      "properties": {
+        "login": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "ADMIN",
+            "USER"
+          ]
+        },
+        "surname": {
+          "type": "string"
+        }
+      },
+      "title": "UserDTO"
+    },
+    "UserResponseDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "login": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "orders": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "ADMIN",
+            "USER"
+          ]
+        },
+        "surname": {
+          "type": "string"
+        }
+      },
+      "title": "UserResponseDTO"
+    }
+  }
+}
